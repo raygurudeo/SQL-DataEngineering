@@ -26,9 +26,38 @@ copy into hospitaldb.hospital.admissions from @hospitaldb.hospital.hospitalstage
 
 
 -- Snow cli steps:
-use role GURU_ROLE_RW;
+snow sql -c myconn
+use role accountadmin;
 use database HOSPITALDB;
 use schema HOSPITAL;
 -- To upload all hospital related csv file to hospital stage;
-PUT file://///mnt/e/Data_Engineering/files/* @hospitalstage;
+PUT file://///mnt/e/Data_Engineering/files/* @hospitaldb.hospital.hospitalstage;
 
+
+
+
+
+
+
+-- Just for refrence to add snowflake connection to snowflake cli
+
+-- guru@DESKTOP-O47TKJG:/mnt/e/Data_Engineering/SQL-DataEngineering$ snow connection add
+-- Enter connection name: snow_azure_conn
+-- Enter account: bc33729
+-- Enter user: pushpakumari
+-- Enter password: 
+-- Enter role: accountadmin
+-- Enter warehouse: COMPUTE_WH
+-- Enter database: HOSPITALDB
+-- Enter schema: HOSPITAL
+-- Enter host: bc33729.east-us.azure.snowflakecomputing.com
+-- Enter port: 443
+-- Enter protocol: https
+-- Enter region: east-us
+-- Enter authenticator: snowflake
+-- Enter workload identity provider: 
+-- Enter private key file: 
+-- Enter token file path: 
+-- Enter secondary roles: 
+-- Wrote new connection snow_azure_conn to /home/guru/.config/snowflake/config.toml
+-- guru@DESKTOP-O47TKJG:/mnt/e/Data_Engineering/SQL-DataEngineering$ snow connection test -c snow_azure_conn
