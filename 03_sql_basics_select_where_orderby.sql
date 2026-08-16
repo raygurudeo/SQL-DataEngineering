@@ -46,3 +46,33 @@ from hospital.doctors d
 join hospital.admissions a on d.doctor_id=a.doctor_id
 join hospital.patients p on p.patient_id=a.patient_id
 where p.state='CA';
+
+-- List patients with their total billing amount
+select p.patient_id,
+p.first_name || ' ' || p.last_name as Patient_Name,
+sum(b.total_charges) as total_bill
+from hospital.patients p
+join hospital.admissions a on a.patient_id=p.patient_id
+join hospital.billings b on b.admission_id=b.admission_id
+group by p.patient_id, Patient_Name
+order by total_bill desc;
+
+-- Find patients who were admitted but have no billing record
+select a.admission_id, 
+a.admission_date, 
+p.patient_id,
+p.first_name || ' ' || p.last_name as Patient_Name,
+b.billing_id
+from hospital.admissions a  
+join hospital.patients p on a.patient_id=p.patient_id
+left join hospital.billings b on a.admission_id=b.admission_id
+where b.admission_id is null;
+
+-- Count admissions per doctor
+select d.doctor_id,
+d.first_name || ' ' || d.last_name as Doctor_Name,
+count(a.admission_id) as Total_Admission
+from hospital.admissions a
+join hospital.doctors d on a.doctor_id=d.doctor_id
+group by Doctor_Name, d.doctor_id
+order by Total_Admission asc;
