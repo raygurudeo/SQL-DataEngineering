@@ -77,3 +77,80 @@ avg(b.total_charges) over (partition by d.facility) as Average_Billing
 from hospital.admissions a 
 join hospital.doctors d on d.doctor_id=a.doctor_id
 join hospital.billings b on b.admission_id=a.admission_id;
+
+
+
+
+
+
+-- Window Functions Explained Simply
+-- 1. ROW_NUMBER
+-- What it does: Gives a sequential number to each row in the result set.
+
+-- Use case: Number admissions per patient in order.
+
+-- Think of it as: “Give me a running serial number.”
+
+-- 2. RANK
+-- What it does: Assigns rank based on order, but leaves gaps if there are ties.
+
+-- Example: If two patients share the highest bill, both get rank 1, and the next patient gets rank 3.
+
+-- Think of it as: “Rank with gaps when values tie.”
+
+-- 3. DENSE_RANK
+-- What it does: Similar to RANK, but no gaps for ties.
+
+-- Example: Two patients share rank 1, the next patient gets rank 2 (not 3).
+
+-- Think of it as: “Rank without gaps.”
+
+-- 4. LAG
+-- What it does: Looks at the previous row’s value.
+
+-- Use case: Compare current bill with the last bill.
+
+-- Think of it as: “What came just before this row?”
+
+-- 5. LEAD
+-- What it does: Looks at the next row’s value.
+
+-- Use case: Show the next scheduled admission date for a patient.
+
+-- Think of it as: “What comes after this row?”
+
+-- 6. PARTITION BY
+-- What it does: Splits data into groups, and applies the window function separately to each group.
+
+-- Use case: Calculate average billing per facility, but show it alongside each admission.
+
+-- Think of it as: “Do the calculation group by group, but still show every row.”
+
+-- 📊 How to Apply During Exercises
+-- Step 1: Decide if you need numbering, ranking, or comparison.
+
+-- Step 2: Choose the right function:
+
+-- Sequential → ROW_NUMBER
+
+-- Ranking → RANK or DENSE_RANK
+
+-- Compare with previous → LAG
+
+-- Compare with next → LEAD
+
+-- Grouped calculation → PARTITION BY
+
+-- Step 3: Always pair with ORDER BY inside the window function to control the sequence.
+
+-- Step 4: Use PARTITION BY when you want the logic applied separately for each patient, doctor, or facility.
+
+-- 👉 In short:
+
+-- ROW_NUMBER → serial numbers
+
+-- RANK/DENSE_RANK → ranking with/without gaps
+
+-- LAG/LEAD → look back/look forward
+
+-- PARTITION BY → group-wise calculations
